@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_BASE_URL || "https://study-notion-fullstack-jade.vercel.app";
+const BASE_URL = import.meta.env.VITE_BASE_URL || "https://study-notion-fullstack-jade.vercel.app/api/v1";
 
 const endpoints = {
     SENDOTP_API: BASE_URL + "/auth/sendotp",
