@@ -26,13 +26,13 @@ app.use(cookieParser());
 // When your frontend (React) makes an API request to the backend (Express) using Axios (or any other HTTP client),
 // this is considered a cross-origin request. The browser will block this request unless the backend explicitly allows it through CORS.
 
-const allowedOrigins = [
-  "http://localhost:5173", // Add the frontend's origin
-  "https://study-notion-fullstack-jade.vercel.app/", // Keep existing origin if necessary
-];
+// const allowedOrigins = [
+//   "http://localhost:5173", // Add the frontend's origin
+//   "https://study-notion-fullstack-jade.vercel.app/", // Keep existing origin if necessary
+// ];
 
 app.use(cors({
-  origin: allowedOrigins, 
+  origin: "*", 
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE", 
   credentials: true 
 }));
