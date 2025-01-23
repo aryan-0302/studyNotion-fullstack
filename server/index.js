@@ -28,7 +28,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5173", // Add the frontend's origin
-  "https://study-notion-fullst-git-dfefb3-aryan-agarwals-projects-d1c0a3ff.vercel.app/", // Keep existing origin if necessary
+  "https://study-notion-fullstack-jade.vercel.app/", // Keep existing origin if necessary
 ];
 
 app.use(cors({
