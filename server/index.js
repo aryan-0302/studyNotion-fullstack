@@ -27,14 +27,21 @@ app.use(cookieParser());
 // this is considered a cross-origin request. The browser will block this request unless the backend explicitly allows it through CORS.
 
 const allowedOrigins = [
-  "http://localhost:5173", // Add the frontend's origin
-  "https://study-notion-fullstack-jade.vercel.app", // Keep existing origin if necessary
+  "http://localhost:5173", // Local development
+  "https://study-notion-fullstack-jade.vercel.app" // Deployed frontend
 ];
 
 app.use(cors({
-  origin: "https://study-notion-fullstack-jade.vercel.app", 
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE", 
-  credentials: true 
+  origin: function (origin, callback) {
+    // Allow requests without an origin (like from Postman) or from allowed origins
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allowed HTTP methods
+  credentials: true, // Allow cookies and authentication headers
 }));
 
 
