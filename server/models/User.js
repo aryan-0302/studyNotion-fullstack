@@ -11,7 +11,6 @@ const userSchema=new mongoose.Schema({
         required: true,
         trim: true,
     },
-    // Define the email field with type String, required, and trimmed
     email: {
         type: String,
         required: true,
@@ -35,22 +34,27 @@ const userSchema=new mongoose.Schema({
         required:true,
         ref:"Profile",
     },
+    
     courses:[
         {
             type:mongoose.Schema.ObjectId,
             ref:"Course",
         }
     ],
+
     image:{
         type:String,
         required:true,
     },
+
     token:{
         type:String,
     },
+
     resetPasswordExpires:{
         type:Date,
     },
+
     courseProgress:[
         {
             type:mongoose.Schema.ObjectId,

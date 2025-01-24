@@ -10,12 +10,12 @@ import CourseProgress from "../models/CourseProgress.js"
 
 
 const capturePayment = async (req, res) => {
-    //get courseId and UserID
+
     const {courses} = req.body;
     const userId = req.user.id;
-    //validation
-    //valid courseID
+   
     try{
+    console.log("payemnt le try me aagya:");
     if(courses.length === 0) {
         return res.json({
             success:false,
@@ -54,8 +54,10 @@ const capturePayment = async (req, res) => {
                 message:error.message,
             });
         }
-        // totalAmount += course.price;
     }
+
+
+    // order create
         const options = {
             amount: totalAmount * 100,
             currency: "INR",
@@ -65,7 +67,7 @@ const capturePayment = async (req, res) => {
         try{
             //initiate the payment using razorpay
             const paymentResponse = await instance.orders.create(options);
-            console.log("payment",paymentResponse);
+            console.log("payment:",paymentResponse);
             //return response
             return res.status(200).json({
                 success:true,
@@ -94,13 +96,15 @@ const capturePayment = async (req, res) => {
 
 
 
-    //verify the signature
+
+
+
+//verify the signature
 const verifySignature = async (req, res) => {
         //get the payment details
         const {razorpay_payment_id, razorpay_order_id, razorpay_signature} = req.body;
         const {courses} = req.body;
         const userId = req.user.id;
-
 
         if(!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
             return res.status(400).json({
@@ -108,9 +112,7 @@ const verifySignature = async (req, res) => {
                 message:'Payment details are incomplete',
             });
         }
-
         let body = razorpay_order_id + "|" + razorpay_payment_id;
-
         const enrolleStudent = async (courses, userId) => {
             if(!courses || !userId) {
                 return res.status(400).json({
@@ -170,17 +172,15 @@ const verifySignature = async (req, res) => {
                             success:false,
                             message:error.message,
                         });
-                    }
-                
+                    }   
             }
-
+     
         try{
             //verify the signature
             const generatedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET).update(body.toString()).digest("hex");
             if(generatedSignature === razorpay_signature) {
                 await enrolleStudent(courses, userId);
             }
-
         }
         catch(error) {
             console.error(error);
@@ -189,9 +189,7 @@ const verifySignature = async (req, res) => {
                 message:error.message,
             });
         }
-
-     
-    }
+}
 
 
 

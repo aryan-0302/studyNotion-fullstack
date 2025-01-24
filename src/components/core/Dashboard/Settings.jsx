@@ -15,6 +15,7 @@ const Settings = () => {
   const dispatch = useDispatch();
   const user=useSelector(state=>state.profile.user);
 
+  
 
   //update profile picture
   const pfp=useSelector(state=>state.profile.user.image);

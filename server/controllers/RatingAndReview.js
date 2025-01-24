@@ -73,11 +73,6 @@ export {createRating}
 
 
 
-
-
-
-
-
 // getAverageRating
 const getAverageRating=async(req,res)=>{
     try{
@@ -124,13 +119,6 @@ const getAverageRating=async(req,res)=>{
     }
 }
 export {getAverageRating}
-
-
-
-
-
-
-
 
 
 

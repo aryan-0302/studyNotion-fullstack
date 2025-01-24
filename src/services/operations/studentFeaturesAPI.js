@@ -1,7 +1,7 @@
 import { apiConnector } from "../apniconnect.js";
 import { studentEndpoints } from "../apis.js";
 import { toast } from "react-hot-toast";
-// import rzplogo from "../../assets/Images/rzp.png";
+import rzplogo from "../../../src/assets/images/rzp.png";
 import { resetCart } from "../../slices/cartSlice.js";
 
 
@@ -25,6 +25,9 @@ function loadScript (src) {
 }
 
 
+
+
+// 1. Buycourse function is called when buy button clicks:
 export async function buyCourse (token, courses, userDetails, navigate, dispatch) {
     // console.log("buyCourse -> courses",process.env.REACT_APP_BASE_URL)
     const toastId = toast.loading("Please wait while we redirect you to payment gateway", {
@@ -46,9 +49,9 @@ export async function buyCourse (token, courses, userDetails, navigate, dispatch
         toast.dismiss(toastId);
         return
     }
-    console.log("buyCourse -> orderResponse", orderResponse)
+    
     const options = {
-        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+        key: "rzp_test_Odzfy358I1vv9f",
         currency: orderResponse.data.currency,
         amount: orderResponse.data.amount.toString(),
         order_id: orderResponse.data.orderId,
@@ -68,6 +71,7 @@ export async function buyCourse (token, courses, userDetails, navigate, dispatch
             color: "#686CFD",
         },
     };
+    console.log("options:",options);
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
     paymentObject.on("payment.failed", function (response) {

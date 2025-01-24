@@ -13,8 +13,9 @@ import otpTemplate from "../mail/templates/emailVerificationTemplate.js"
 // sendOTP
 const sendotp = async (req, res) => {
     try {
+        // let conn= await connect()
       const { email } = req.body;
-  
+      console.log("try ke andr aaya:");
       // Check if user already exists
       const checkUserPresent = await User.findOne({ email });
   
@@ -24,6 +25,7 @@ const sendotp = async (req, res) => {
           message: "User already registered",
         });
       }
+      console.log("check user ke baad aaya:");
   
       // Generate OTP
       let otp = otpgenerator.generate(6, {
@@ -55,6 +57,7 @@ const sendotp = async (req, res) => {
   
       // Send OTP via email
       try {
+        console.log("send email ke andr aaya");
         const emailResponse = await mailSender(email, "OTP Verification", otpTemplate(otp));
         console.log("OTP email sent successfully", emailResponse.response);
       } catch (error) {
@@ -217,7 +220,7 @@ const login = async (req, res) => {
                 accountType: user.accountType,
             };
 
-            // token generation,which will expires in 2h:
+            // JWT token generation,which will expires in 2h:
             const token = jwt.sign(payload, process.env.JWT_SECRET, {
                 expiresIn: "2h",
             });
@@ -230,6 +233,7 @@ const login = async (req, res) => {
                 httpOnly: true,
             };
 
+            // and return the cookie in response
             return res.cookie("token", token, options).status(200).json({
                 success: true,
                 token,
@@ -258,9 +262,8 @@ export {login}
 const changePassword=async(req,res)=>{
     // get data from req body
     try{
-        
+        // mongoDB generates a unique _id field for every documnet.
     const userDetails=await User.findById(req.user.id);
-    
 
     // get oldpassword,newpassword,confirmpassword
     const {oldPassword,newPassword,confirmPassword}=req.body;
@@ -293,7 +296,7 @@ const changePassword=async(req,res)=>{
         });
     }
 
-    // update pwd in DB
+    // update password in DB
     const encryptedPassword=await bcryptjs.hash(newPassword,10);
     const updatedUserDetails=await User.findByIdAndUpdate(
         req.user.id,

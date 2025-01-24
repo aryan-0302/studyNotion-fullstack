@@ -29,7 +29,7 @@ router.post("/sendotp", sendotp)
 
 // Route for Changing the password
 router.post("/changepassword", auth, changePassword)
-
+ 
 // Route for generating a reset password token
 router.post("/reset-password-token", resetPasswordToken)
 

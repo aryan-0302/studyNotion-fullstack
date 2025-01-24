@@ -31,7 +31,13 @@ const createCourse = async (req, res) => {
 		console.log(courseName,courseDescription,whatYouWillLearn,price,tag,category,status);
 
 		// fetch file from request
-		const thumbnail = req.files.thumbnailImage;
+		const thumbnail = req.files?.thumbnailImage;
+		if (!thumbnail) {
+            return res.status(400).json({
+                success: false,
+                message: "Thumbnail image is required",
+            });
+        }
 		console.log("file aaagyi",thumbnail);
 
         // Validation
@@ -82,7 +88,7 @@ const createCourse = async (req, res) => {
 
         // Upload the image to cloudinary
         const response = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME);
-		console.log(response);
+		console.log("response:",response);
 
         // Create an entry for the new course
         const newCourse = await Course.create({
@@ -93,11 +99,12 @@ const createCourse = async (req, res) => {
             price,
             tag: tag,
             category: categoryDetails._id,
-            thumbnail: thumbnail.secure_url,
+            thumbnail: response.secure_url,
             status: status,
             instructions: instructions,
         });
-
+		console.log("newcourse:",newCourse)
+		console.log("newcourse images;",newCourse.thumbnail)
         // Add the new course to the instructor's user schema
         await User.findByIdAndUpdate(
             { _id: instructorDetails._id },

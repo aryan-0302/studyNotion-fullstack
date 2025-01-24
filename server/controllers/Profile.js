@@ -3,6 +3,7 @@
 import Profile from "../models/Profile.js"
 import User from "../models/User.js"
 import uploadImageToCloudinary from "../utils/imageUploader.js"
+import Course from "../models/Course.js"
 
 const updateProfile = async (req, res) => {
     try {
@@ -38,7 +39,7 @@ const updateProfile = async (req, res) => {
         profileDetails.about = about;
         profileDetails.contactNumber = contactNumber;
         if (gender) {
-            profileDetails.gender = gender; // Only update if gender is provided
+            profileDetails.gender = gender;
         }
 
         await profileDetails.save();
@@ -99,6 +100,7 @@ export {deleteAccount}
 const getAllUserDetails = async (req, res) => {
     try {
         const id = req.user.id;
+        // kyuki additional details ek referred he User model me, so to get additional detials model also in the user model only then we use this.
         const userDetails = await User.findById(id).populate("additionalDetails").exec();
 
         // Check if user exists
@@ -134,13 +136,14 @@ const getEnrolledCourses=async (req,res) => {
             });
         }
         const enrolledCourses = await User.findById(id).populate({
+            // fetching the courseContent details for each course
 			path : "courses",
 				populate : {
 					path: "courseContent",
 			}
 		}
 		).populate("courseProgress").exec();
-        // console.log(enrolledCourses);
+        
         res.status(200).json({
             success: true,
             message: "User Data fetched successfully",
@@ -166,7 +169,7 @@ const updateDisplayPicture = async (req, res) => {
             message: "User not found",
         });
 	}
-    //console.log("image:")
+   
 	const image = req.files.pfp;
 	if (!image) {
 		return res.status(404).json({
@@ -200,8 +203,11 @@ const updateDisplayPicture = async (req, res) => {
 //instructor dashboard
 const instructorDashboard = async (req, res) => {
 	try {
+        console.log("instructor dasbhaord ke try me aaya:")
 		const id = req.user.id;
+        console.log("instructor id:",id)
 		const courseData = await Course.find({instructor:id});
+        console.log("course data:",courseData)
 		const courseDetails = courseData.map((course) => {
 			totalStudents = course?.studentsEnrolled?.length;
 			totalRevenue = course?.price * totalStudents;

@@ -163,7 +163,7 @@ export async function getInstructorDashboard(token, dispatch) {
   
   try {
     console.log("BEFORE Calling BACKEND API FOR INSTRUCTOR DASHBOARD");
-    
+    console.log("profileapi,ka try chl rha:");
     // Correct the Authorization typo
     const response = await apiConnector(
       "GET",

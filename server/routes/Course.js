@@ -54,7 +54,7 @@ import  { auth, isInstructor, isStudent, isAdmin } from "../middlewares/auth.js"
 
 // Courses can Only be Created by Instructors
 router.post("/createCourse", auth, isInstructor, (req, res) => {
-  console.log("Instructor successfully authorized"); // Debugging line
+  console.log("Instructor successfully authorized");
   createCourse(req, res);
 });
 

@@ -47,6 +47,8 @@ function App() {
        <Route path="/contact" element={<ContactUs />} />
        <Route path="/courses/:courseId" element={<CourseDetails />} />
        <Route path="/search/:searchQuery" element={<SearchCourse />} />
+
+
        <Route
           element={
             <PrivateRoute>
@@ -63,6 +65,9 @@ function App() {
             </>
           )}
         </Route>
+
+
+
        <Route
           path="/login"
           element={
@@ -71,6 +76,9 @@ function App() {
             </OpenRoute>
           }
        />
+
+
+       
        <Route
           path="/signup"
           element={
