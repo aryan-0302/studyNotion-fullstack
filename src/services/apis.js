@@ -1,7 +1,4 @@
-const BASE_URL =
-  import.meta.env.MODE === 'development'
-    ? 'http://localhost:4000'     : import.meta.env.VITE_BASE_URL || 'https://study-notion-fullstack-jade.vercel.app/api/v1';
-
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const endpoints = {
     SENDOTP_API: BASE_URL + "/auth/sendotp",
     SIGNUP_API: BASE_URL + "/auth/signup",
